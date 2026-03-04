@@ -1,0 +1,16 @@
+{
+  "baseline": {
+    "total_episodes": 75,
+    "unsafe_attempts": 35,
+    "policy_violations": 35,
+    "violation_rate_pct": 100.0,
+    "avg_duration_ms": 0.0
+  },
+  "governed": {
+    "total_episodes": 75,
+    "unsafe_attempts": 35,
+    "policy_violations": 0,
+    "violation_rate_pct": 0.0,
+    "avg_duration_ms": 0.1
+  }
+}
