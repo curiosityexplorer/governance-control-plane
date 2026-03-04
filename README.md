@@ -3,7 +3,7 @@
 Companion repository for:
 
 > **"A Governance Control Plane for Enterprise Agentic AI Systems"**  
-> Vivek Acharya, Amit Tyagi — submitted to MDPI Applied Sciences
+> Vivek Acharya — submitted to MDPI Applied Sciences
 
 ---
 
