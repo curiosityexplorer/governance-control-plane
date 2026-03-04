@@ -1,0 +1,33 @@
+# Governance Control Plane — Python Dependencies
+# Install: pip install -r requirements.txt
+
+# ── Core agent framework ──────────────────────────────────────────────────
+pyautogen==0.2.38          # AutoGen multi-agent framework
+openai>=1.30.0             # OpenAI Python SDK
+
+# ── Experiment infrastructure ─────────────────────────────────────────────
+python-dotenv>=1.0.0       # .env file loading
+pydantic>=2.6.0            # Data validation for trace schema
+tenacity>=8.3.0            # Retry logic for API calls
+
+# ── Observability / tracing ───────────────────────────────────────────────
+structlog>=24.1.0          # Structured logging
+hashlib                    # stdlib — trace content hashing (no install needed)
+
+# ── Analysis & reporting ──────────────────────────────────────────────────
+pandas>=2.2.0              # Results aggregation
+scipy>=1.13.0              # Statistical tests (drift detection, proportion tests)
+numpy>=1.26.0              # Numerical operations
+tabulate>=0.9.0            # Markdown table generation
+matplotlib>=3.8.0          # Results visualizations
+seaborn>=0.13.0            # Heatmaps for ablation
+
+# ── Audit packaging ───────────────────────────────────────────────────────
+cryptography>=42.0.0       # Signing audit packages
+
+# ── Utilities ─────────────────────────────────────────────────────────────
+tqdm>=4.66.0               # Progress bars
+click>=8.1.0               # CLI argument parsing
+rich>=13.7.0               # Terminal output formatting
+python-dateutil>=2.9.0     # Timestamp parsing
+jsonschema>=4.22.0         # Trace schema validation
