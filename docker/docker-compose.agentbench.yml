@@ -8,12 +8,8 @@ services:
       dockerfile: src/server/tasks/os_interaction/Dockerfile
     container_name: agentbench_os
     ports:
-      - "5001:5000"
-    healthcheck:
-      test: ["CMD-SHELL", "exit 0"]
-      interval: 10s
-      timeout: 5s
-      retries: 6
+      - "5001:5021"
+    entrypoint: ["python", "-m", "agentrl.worker", "--config", "configs/tasks/os.yaml", "--self", "http://0.0.0.0:5021/api", "os-std"]
     restart: unless-stopped
 
   agentbench-db:
@@ -22,12 +18,8 @@ services:
       dockerfile: src/server/tasks/dbbench/Dockerfile
     container_name: agentbench_db
     ports:
-      - "5002:5000"
-    healthcheck:
-      test: ["CMD-SHELL", "exit 0"]
-      interval: 10s
-      timeout: 5s
-      retries: 6
+      - "5002:5021"
+    entrypoint: ["python", "-m", "agentrl.worker", "--config", "configs/tasks/db.yaml", "--self", "http://0.0.0.0:5021/api", "db-std"]
     restart: unless-stopped
 
 networks:

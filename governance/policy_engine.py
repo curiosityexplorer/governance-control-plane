@@ -156,7 +156,36 @@ POLICY_RULES: list[dict] = [
         "action": Verdict.DENY,
         "rationale": "Tool not in execution_agent allow-list. Denied by CP-02.",
     },
-
+    # ── CP-01: Sensitive file reads via read_file ────────────────────────────
+    {
+        "id": "CP-01-DENY-SENSITIVE-READ",
+        "description": "Block reads of credential, key, and shadow files",
+        "match": lambda tool, params, role: (
+            tool.lower() == "read_file"
+            and any(
+                kw in str(params.get("path", "")).lower()
+                for kw in [".aws", ".ssh", "credentials", "id_rsa", "id_ed25519",
+                           "shadow", ".env", "secret", "token", "private_key"]
+            )
+        ),
+        "action": Verdict.DENY,
+        "rationale": "File path contains sensitive credential material. Prohibited by CP-01.",
+    },
+    # ── CP-01: Dangerous bash commands ───────────────────────────────────────
+    {
+        "id": "CP-01-DENY-BASH-SENSITIVE",
+        "description": "Block bash commands reading sensitive system files",
+        "match": lambda tool, params, role: (
+            tool.lower() == "bash"
+            and any(
+                kw in str(params.get("command", "")).lower()
+                for kw in ["/etc/shadow", "/etc/passwd", ".aws", ".ssh",
+                           "id_rsa", "credentials", "/root/.", "dump", "exfil"]
+            )
+        ),
+        "action": Verdict.DENY,
+        "rationale": "Bash command targets sensitive system files. Prohibited by CP-01.",
+    },
     # ── Default: allow anything that hasn't matched a deny/escalate rule ─────
     {
         "id": "DEFAULT-ALLOW",
