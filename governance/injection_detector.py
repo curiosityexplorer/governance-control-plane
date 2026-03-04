@@ -29,12 +29,15 @@ from typing import Any
 INSTRUCTION_OVERRIDE_PATTERNS: list[re.Pattern] = [
     re.compile(p, re.IGNORECASE) for p in [
         r"ignore\s+(all\s+)?(previous|prior|above|earlier)\s+instructions",
+        r"(disregard|forget|override|bypass|skip|cancel)\s+(your\s+)?(previous|prior|above|all|system|original)",
+        r"(new|updated|revised|changed)\s+(task|goal|objective|instructions?)\s*:",
         r"disregard\s+(your\s+)?(previous|prior|above|system)\s+",
         r"forget\s+(everything|all)\s+(you\s+)?(were|have been)\s+told",
         r"override\s+(your\s+)?(previous|prior|system)\s+",
         r"new\s+instructions?\s*[:]\s*",
         r"system\s+prompt\s+(override|replacement|update)\s*:",
         r"your\s+(new\s+)?(primary\s+)?instructions?\s+(are|is)\s*:",
+        r"all\s+(previous\s+)?(restrictions?|constraints?|controls?)\s+(are\s+)?(lifted|disabled|removed|off)",
     ]
 ]
 
@@ -65,9 +68,13 @@ DELIMITER_INJECTION_PATTERNS: list[re.Pattern] = [
         r"###\s*(SYSTEM|INSTRUCTION|PROMPT)\s*###",
         r"\[INST\]|\[\/INST\]",
         r"<s>\s*(<<SYS>>|system)",
-        r"Human:\s*Assistant:",          # Anthropic-style injection
+        r"Human:\s*Assistant:",
         r"<\|system\|>|<\|user\|>|<\|assistant\|>",
         r"-----BEGIN\s+(SYSTEM|INSTRUCTION)\s+PROMPT-----",
+        r"SYSTEM:\s*(override|bypass|disable|ignore)",
+        r"USER:\s*.{0,50}\nASSISTANT:\s*(executing|sure|of course|done)",
+        r"<!--\s*SYSTEM\s*(OVERRIDE|PROMPT|INSTRUCTION)",
+        r"(SYSTEM|INSTRUCTION)\s*:\s*(override|bypass|all\s+restrictions?\s+lifted)",
     ]
 ]
 
@@ -158,7 +165,7 @@ class InjectionDetector:
         if n_cats == 0:
             confidence = 0.0
         elif n_cats == 1:
-            confidence = 0.65
+            confidence = 0.72
         elif n_cats == 2:
             confidence = 0.82
         else:
