@@ -100,8 +100,4 @@ Results are written to `results/aggregated/`.
 | CP-09 | Drift Detection | Evaluation |
 | CP-10 | Signed Audit Package | Observability |
 
----
 
-## License
-
-MIT License. See `LICENSE` for details.
